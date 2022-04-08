@@ -17,6 +17,12 @@ struct ContentView: View {
     @State private var gameOver = false
     @State private var questionsCount = 0
     
+    @State private var animationAmount = 0.0
+    @State private var animateOpacity = 1.0
+    @State private var besidesTheCorrect = false
+    @State private var besidesTheWrong = false
+    @State private var selectedFlag = 0
+    
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -51,12 +57,16 @@ struct ContentView: View {
                     ForEach(0..<3){number in
                         Button{
                             flagTapped(number)
+                            selectedFlag = number
                         }label: {
                             Image(countries[number])
                                 .renderingMode(.original)
                                 .clipShape(Capsule())
                                 .shadow(radius: 5)
-                                }
+                                .rotation3DEffect(.degrees(number == correctAnswer ? animationAmount : 0), axis: (x: 0, y: 1, z: 0))
+                                .opacity(number != correctAnswer && besidesTheCorrect ? animateOpacity : 1 )
+                                .background(besidesTheWrong && selectedFlag == number ? Capsule(style: .circular).fill(Color.red).blur(radius: 30) : Capsule(style: .circular).fill(Color.clear).blur(radius: 0))
+                                .opacity(besidesTheWrong && selectedFlag != number ? animateOpacity : 1)
                         }
                     }
                     .frame(maxWidth:.infinity)
@@ -97,10 +107,22 @@ struct ContentView: View {
             userCorrect = true
             userSocre += 100
             finalScore += 100
+            
+            withAnimation{
+                animationAmount += 360
+                animateOpacity = 0.25
+                besidesTheCorrect = true
+            }
         }else{
             scoreTitle = "That's the flag of \(countries[number])"
             userCorrect = false
+            
+             withAnimation{
+                animateOpacity = 0.25
+                besidesTheWrong = true
+            }  
         }
+        questionsCount += 1
         showingScore = true
     }
     
@@ -110,7 +132,8 @@ struct ContentView: View {
         }else{
             countries.shuffle()
             correctAnswer = Int.random(in: 0...2)
-            questionsCount += 1
+            besidesTheCorrect = false
+            besidesTheWrong = false
         }
     }
    
