@@ -8,27 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var order = Order()
-    
+    @StateObject var order = OrderItems()
+  
     var body: some View {
         NavigationView{
             Form{
                 Section{
-                    Picker("Select your cake type", selection: $order.type) {
+                    Picker("Select your cake type", selection: $order.items.type) {
                         ForEach(Order.types.indices) {
                             Text(Order.types[$0])
                         }
                     }
                     
-                    Stepper("Number Of cakes: \(order.quantity)",value: $order.quantity,in: 3...20)
+                    Stepper("Number Of cakes: \(order.items.quantity)",value: $order.items.quantity,in: 3...20)
                 }
                 
                 Section{
-                    Toggle("Any special requests?",isOn: $order.specialRequestEnabled.animation())
+                    Toggle("Any special requests?",isOn: $order.items.specialRequestEnabled.animation())
                     
-                    if order.specialRequestEnabled {
-                        Toggle("Add extra sprinkles",isOn: $order.addSprinkles)
-                        Toggle("Add extra frosting", isOn: $order.extraFrosting)
+                    if order.items.specialRequestEnabled {
+                        Toggle("Add extra sprinkles",isOn: $order.items.addSprinkles)
+                        Toggle("Add extra frosting", isOn: $order.items.extraFrosting)
                     }
                 }
                 
