@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [
+        SortDescriptor(\.createDate),
         SortDescriptor(\.title),
         SortDescriptor(\.author)
     ]) var books: FetchedResults<Book>
@@ -28,8 +29,14 @@ struct ContentView: View {
                                 .font(.largeTitle)
                             
                             VStack(alignment: .leading) {
-                                Text(book.title ?? "Unknown Title")
-                                    .font(.headline)
+                                if book.rating == 1 {
+                                    Text(book.title ?? "Unknown Title")
+                                        .font(.headline)
+                                        .foregroundColor(Color.red)
+                                }else{
+                                    Text(book.title ?? "Unknown Title")
+                                        .font(.headline)
+                                }
                                 Text(book.author ?? "Unknown Author")
                                     .foregroundColor(.secondary)
                             }

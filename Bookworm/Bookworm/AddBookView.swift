@@ -15,6 +15,7 @@ struct AddBookView: View {
     @State private var genre = ""
     @State private var rating = 3
     @State private var review = ""
+    @State private var createDate = Date.now
     
     @Environment(\.dismiss) var dismiss
     
@@ -40,6 +41,7 @@ struct AddBookView: View {
                 }header: {
                     Text("Wirte a review")
                 }
+              
                 
                 Section {
                     Button("Save") {
@@ -50,13 +52,22 @@ struct AddBookView: View {
                         newBook.genre = genre
                         newBook.rating = Int16(rating)
                         newBook.review = review
+                        newBook.createDate = Date.now
                         
                         try? moc.save()
                         dismiss()
                     }
                 }
+                .disabled(hasValidBook == false)
             }
         }
+    }
+    
+    var hasValidBook: Bool {
+        if title.isEmpty || author.isEmpty || genre.isEmpty {
+            return false
+        }
+        return true
     }
 }
 

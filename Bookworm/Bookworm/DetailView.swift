@@ -33,7 +33,7 @@ struct DetailView: View {
             }
             
             Text(book.author ?? "Unknown author")
-                .font(.title)
+                .font(.title2)
                 .foregroundColor(.secondary)
             
             Text(book.review ?? "No review")
@@ -41,6 +41,11 @@ struct DetailView: View {
             
             RatingView(rating: .constant(Int(book.rating)))
                 .font(.largeTitle)
+            
+            Text("Create Date: \(book.createDate?.formatted(date: .long, time: .omitted) ?? "N/A")")
+                .font(.callout)
+                .foregroundColor(.gray)
+                .padding(10)
         }
         .toolbar {
             Button {
