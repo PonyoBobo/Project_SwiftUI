@@ -19,74 +19,41 @@ struct ContentView: View {
     
     
     var body: some View {
-        ZStack{
-            Color.purple
-                .opacity(0.5).edgesIgnoringSafeArea(.all)
-            
-            VStack{
-                Text("Word Scramble")
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .foregroundColor(Color.white)
-                    .shadow(radius: 4)
-                    .padding([.top,.bottom],25)
-                
-            VStack (spacing: 10){
-                Text(rootWord)
-                    .font(.title)
-                    .fontWeight(.medium)
-                    .padding(2)
-                
-                Spacer()
-                
-                TextField("Enter Your word", text: $newWord)
+        NavigationView{
+            List{
+                Section{
+                    TextField("Enter Your word", text: $newWord)
                         .autocapitalization(.none)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(20.0)
-                        .shadow(radius: 5)
-                
-                    List{
-                        Section(header:Text("Used Word : ")){
-                            ForEach(usedWords, id : \.self) { word in
-                                HStack{
-                                    Text(word)
-                                    Image(systemName: "\(word.count).circle")
-                                }
-                            }
-                        }
-                        .listRowSeparator(.hidden)
-                        .headerProminence(.standard)
-                    }
-                    .cornerRadius(27.5)
-                    .shadow(radius: 10)
-
-                Spacer()
-                
-                HStack{
-                    Text("Your scores is")
-                        .font(.headline)
-                    Text("\(gameScore)")
-                        .font(.title)
                 }
-                .padding()
-                .background(.thinMaterial,in : RoundedRectangle(cornerRadius: 8))
                 
-               Button("restart"){startGame()}
-        
-                Spacer()
-                Spacer()
+                Section(){
+                    ForEach(usedWords, id : \.self) { word in
+                        HStack{
+                            Text(word)
+                            Image(systemName: "\(word.count).circle")
+                        }
+            
+                    }
+                }
+                
+                Section("Your Scores"){
+                    Text("\(gameScore)")
+                }
+                
             }
-            .padding()
+            .navigationTitle(rootWord)
+            .toolbar{
+                Button("restart"){
+                    startGame()}
+            }
+            .onSubmit(addNewWord)
+            .onAppear(perform: startGame)
+            .alert(errorTitle, isPresented: $showingError){
+                Button("OK",role: .cancel){}
+            }message: {
+                Text(errorMessage)
             }
             
-        }
-        .onSubmit(addNewWord)
-        .onAppear(perform: startGame)
-        .alert(errorTitle, isPresented: $showingError){
-            Button("OK",role: .cancel){}
-        }message: {
-            Text(errorMessage)
         }
     }
     
@@ -180,6 +147,7 @@ struct ContentView: View {
         errorMessage = message
         showingError = true
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
