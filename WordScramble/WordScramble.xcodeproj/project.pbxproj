@@ -105,7 +105,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A6F2CE6D27F3EA4A009F04DF /* Build configuration list for PBXProject "WordScramble" */;
+			buildConfigurationList = A6F2CE6D27F3EA4A009F04DF /* Build configuration list for PBXProject "WordScramble01" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -324,7 +324,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A6F2CE6D27F3EA4A009F04DF /* Build configuration list for PBXProject "WordScramble" */ = {
+		A6F2CE6D27F3EA4A009F04DF /* Build configuration list for PBXProject "WordScramble01" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6F2CE7E27F3EA4B009F04DF /* Debug */,
